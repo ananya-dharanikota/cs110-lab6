@@ -1,4 +1,26 @@
 function BookList({ books, API_URL, loadBooks, setEditingBook }) {
+  async function handleCategoryChange(id, currentCategory) {
+    const categories = [
+      "Uncategorized",
+      "Fiction",
+      "Non-Fiction",
+      "Science",
+      "History",
+      "Biography",
+      "Technology",
+    ];
+    const nextIndex =
+      (categories.indexOf(currentCategory) + 1) % categories.length;
+    const nextCategory = categories[nextIndex];
+
+    await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category: nextCategory }),
+    });
+    loadBooks();
+  }
+
   async function handleMarkRead(id, currentRead) {
     await fetch(`${API_URL}/${id}`, {
       method: "PUT",
@@ -28,6 +50,10 @@ function BookList({ books, API_URL, loadBooks, setEditingBook }) {
             <p>
               <strong>ISBN:</strong> {book.isbn}
             </p>
+            <p>
+              <strong>Category:</strong> {book.category || "Uncategorized"}
+            </p>
+
             <button onClick={() => setEditingBook(book)}>Edit</button>
 
             <button onClick={() => deleteBook(book._id)}>Delete</button>
