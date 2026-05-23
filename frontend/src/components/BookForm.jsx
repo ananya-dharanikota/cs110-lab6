@@ -5,6 +5,7 @@ function BookForm({ API_URL, loadBooks, editingBook, setEditingBook }) {
     isbn: "",
     title: "",
     author: "",
+    category: "Uncategorized",
   });
 
   useEffect(() => {
@@ -38,7 +39,12 @@ function BookForm({ API_URL, loadBooks, editingBook, setEditingBook }) {
         });
       }
 
-      setFormData({ isbn: "", title: "", author: "" });
+      setFormData({
+        isbn: "",
+        title: "",
+        author: "",
+        category: "Uncategorized",
+      });
       await loadBooks();
     } catch (err) {
       console.error("Error:", err);
@@ -70,6 +76,16 @@ function BookForm({ API_URL, loadBooks, editingBook, setEditingBook }) {
         value={formData.author}
         onChange={handleChange}
       />
+
+      <select name="category" value={formData.category} onChange={handleChange}>
+        <option value="Uncategorized">Uncategorized</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Non-Fiction">Non-Fiction</option>
+        <option value="Science">Science</option>
+        <option value="History">History</option>
+        <option value="Biography">Biography</option>
+        <option value="Technology">Technology</option>
+      </select>
 
       <button type="submit">{editingBook ? "Updated Book" : "Add Book"}</button>
     </form>

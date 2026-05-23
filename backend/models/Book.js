@@ -8,6 +8,10 @@ const bookSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  category: {
+    type: String,
+    default: "Uncategorized",
+  },
 });
 
 module.exports = mongoose.model("Book", bookSchema);
